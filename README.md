@@ -28,7 +28,7 @@ Place the following in `application.conf` in your resources folder (create
 it if it doesn't exist)
 
 ```conf
-zalandoStupsTokens {
+tokens {
   accessTokenUri="http://localhost:9191/access_token?realm=whatever"
   clientCredentialsDirectory="/somepath/credentials"
 

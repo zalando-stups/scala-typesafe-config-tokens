@@ -14,7 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.FiniteDuration
 
 case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
-  private val prefix = "zalandoStupsTokens"
+  private val prefix = "tokens"
 
   final case class TokenConfiguration(tokenId: String, scopes: Set[String])
 
