@@ -26,4 +26,26 @@ publishTo := {
 
 publishArtifact in Test := false
 
+pomIncludeRepository := { _ => false }
+
+pomExtra := <url>https://github.com/zalando/scala-typesafe-config-tokens</url>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>https://opensource.org/licenses/Apache-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/zalando/scala-typesafe-config-tokens</url>
+    <connection>scm:git:git@github.com:zalando/scala-typesafe-config-tokens.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>mdedetrich</id>
+      <name>Matthew de Detrich</name>
+      <email>matthew.de.detrich@zalando.de</email>
+    </developer>
+  </developers>
+
 resolvers += Resolver.jcenterRepo
