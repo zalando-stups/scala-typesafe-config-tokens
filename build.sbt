@@ -28,7 +28,7 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-pomExtra := <url>https://github.com/zalando/scala-typesafe-config-tokens</url>
+pomExtra := <url>https://github.com/zalando-incubator/scala-typesafe-config-tokens</url>
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -37,8 +37,8 @@ pomExtra := <url>https://github.com/zalando/scala-typesafe-config-tokens</url>
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/zalando/scala-typesafe-config-tokens</url>
-    <connection>scm:git:git@github.com:zalando/scala-typesafe-config-tokens.git</connection>
+    <url>https://github.com/zalando-incubator/scala-typesafe-config-tokens</url>
+    <connection>scm:git:git@github.com:zalando-incubator/scala-typesafe-config-tokens.git</connection>
   </scm>
   <developers>
     <developer>
