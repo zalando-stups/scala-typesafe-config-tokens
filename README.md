@@ -1,4 +1,4 @@
-## Scala-Typesafe Config STUPS AccessTokens Support
+## Scala-Typesafe Config STUPS AccessTokens Support [![Build Status](https://travis-ci.org/zalando-incubator/scala-typesafe-config-tokens.svg?branch=master)](https://travis-ci.org/zalando-incubator/scala-typesafe-config-tokens)
 
 Is a small wrapper around [Tokens](https://github.com/zalando-stups/tokens) with autoconfiguration support in Scala applications
 using [Typesafe Config](https://github.com/typesafehub/config). The intention is to make it very easy to get access token details,
