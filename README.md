@@ -31,7 +31,7 @@ Currently built for Scala 2.11
 ### Configuration
 
 Place the following in `application.conf` in your resources folder (create
-it if it doesn't exist)
+it if doesn't exist)
 
 ```conf
 tokens {
