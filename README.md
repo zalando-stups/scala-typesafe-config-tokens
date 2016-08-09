@@ -20,6 +20,12 @@ Add the following to your `build.sbt` when using SBT.
 libraryDependencies += "org.zalando" %% "scala-typesafe-config-tokens" % "0.1"
 ```
 
+You will also need to add the following repository
+
+```sbt
+resolvers += Resolver.jcenterRepo
+```
+
 Currently built for Scala 2.11
 
 ### Configuration
