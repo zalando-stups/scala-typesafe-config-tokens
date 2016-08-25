@@ -1,6 +1,6 @@
 name := """scala-typesafe-config-tokens"""
 
-version := "0.1.1-SNAPSHOT"
+version := "0.1.1"
 
 scalaVersion := "2.11.8"
 
@@ -17,7 +17,7 @@ publishMavenStyle := true
 
 // Publish snapshots to a different repository
 publishTo := {
-  val nexus = "https://maven.zalando.net/"
+  val nexus = "https://oss.sonatype.org/"
   if (isSnapshot.value)
     Some("snapshots" at nexus + "content/repositories/snapshots/")
   else
