@@ -1,6 +1,6 @@
 name := """scala-typesafe-config-tokens"""
 
-version := "0.1.1"
+version := "0.1.2-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
@@ -12,6 +12,8 @@ libraryDependencies ++= Seq(
   "com.iheart"                %% "ficus"       % "1.2.6",
   "org.specs2"                %% "specs2-core" % "3.8.4" % Test
 )
+
+scalafmtConfig := Some(file(".scalafmt"))
 
 publishMavenStyle := true
 
