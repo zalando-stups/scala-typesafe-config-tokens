@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "org.specs2"                %% "specs2-core" % "3.8.4" % Test
 )
 
-scalafmtConfig := Some(file(".scalafmt"))
+scalafmtConfig := Some(file(".scalafmt.conf"))
 
 publishMavenStyle := true
 
@@ -23,7 +23,7 @@ publishTo := {
   if (isSnapshot.value)
     Some("snapshots" at nexus + "content/repositories/snapshots")
   else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
 publishArtifact in Test := false
