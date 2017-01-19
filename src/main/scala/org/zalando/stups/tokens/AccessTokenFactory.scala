@@ -34,7 +34,7 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
       }
       connectionRequestTimeout.foreach { connectionRequestTimeout =>
         httpConfig.setConnectionRequestTimeout(
-            connectionRequestTimeout.toMillis.toInt)
+          connectionRequestTimeout.toMillis.toInt)
       }
       staleConnectionCheckEnabled.foreach { staleConnectionCheckEnabled =>
         httpConfig.setStaleConnectionCheckEnabled(staleConnectionCheckEnabled)
@@ -83,7 +83,7 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
   val maybeUserCredentials = config
     .as[Option[String]](s"$prefix.userCredentials")
     .map(fileName =>
-          new JsonFileBackedUserCredentialsProvider(new File(fileName)))
+      new JsonFileBackedUserCredentialsProvider(new File(fileName)))
 
   val userDirectoryCredentialFile = config
     .as[Option[String]](s"$prefix.userDirectoryCredentialFile")
@@ -96,11 +96,11 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
   val maybeCredentialsDirectory =
     config.as[Option[String]](s"$prefix.credentialsDirectory").map {
       directory =>
-        val user = new File(s"$directory/$userDirectoryCredentialFile")
+        val user   = new File(s"$directory/$userDirectoryCredentialFile")
         val client = new File(s"$directory/$clientDirectoryCredentialFile")
         (
-            new JsonFileBackedClientCredentialsProvider(client),
-            new JsonFileBackedUserCredentialsProvider(user)
+          new JsonFileBackedClientCredentialsProvider(client),
+          new JsonFileBackedUserCredentialsProvider(user)
         )
     }
 
@@ -109,21 +109,19 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
       httpProviderConfiguration =>
         val closableHttpProviderFactory = new ClosableHttpProviderFactory
         closableHttpProviderFactory.create(
-            httpProviderConfiguration.clientCredentials
-              .map(fileName =>
-                    new JsonFileBackedClientCredentialsProvider(
-                        new File(fileName)).get)
-              .orNull,
-            httpProviderConfiguration.userCredentials
-              .map(fileName =>
-                    new JsonFileBackedUserCredentialsProvider(
-                        new File(fileName)).get)
-              .orNull,
-            httpProviderConfiguration.accessTokenUri
-              .map(accessTokenUri => new URI(accessTokenUri))
-              .orNull,
-            httpProviderConfiguration.httpConfig
-              .map(_.toHttpConfig) getOrElse new HttpConfig
+          httpProviderConfiguration.clientCredentials
+            .map(fileName =>
+              new JsonFileBackedClientCredentialsProvider(new File(fileName)).get)
+            .orNull,
+          httpProviderConfiguration.userCredentials
+            .map(fileName =>
+              new JsonFileBackedUserCredentialsProvider(new File(fileName)).get)
+            .orNull,
+          httpProviderConfiguration.accessTokenUri
+            .map(accessTokenUri => new URI(accessTokenUri))
+            .orNull,
+          httpProviderConfiguration.httpConfig
+            .map(_.toHttpConfig) getOrElse new HttpConfig
         )
         closableHttpProviderFactory
     }
@@ -179,12 +177,12 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
 
   maybeClientCredentials.foreach { clientCredentialsDirectory =>
     accessTokensBuilder.usingClientCredentialsProvider(
-        clientCredentialsDirectory)
+      clientCredentialsDirectory)
   }
 
   maybeUserCredentials.foreach { userClientCredentialsDirectory =>
     accessTokensBuilder.usingUserCredentialsProvider(
-        userClientCredentialsDirectory)
+      userClientCredentialsDirectory)
   }
 
   maybeCredentialsDirectory.foreach {
@@ -199,7 +197,7 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
 
   maybeConnectionRequestTimeout.foreach { connectionRequestTimeout =>
     accessTokensBuilder.connectionRequestTimeout(
-        connectionRequestTimeout.toMillis.toInt)
+      connectionRequestTimeout.toMillis.toInt)
   }
 
   maybeConnectTimeout.foreach { connectTimeout =>
@@ -208,7 +206,7 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
 
   maybeStaleConnectionCheckEnabled.foreach { staleConnectionCheckEnabled =>
     accessTokensBuilder.staleConnectionCheckEnabled(
-        staleConnectionCheckEnabled)
+      staleConnectionCheckEnabled)
   }
 
   maybeSchedulingPeriod.foreach { schedulingPeriod =>
@@ -239,7 +237,7 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
   maybeTokenVerifierSchedulingPeriod.foreach { tokenVerifierMcbConfig =>
     accessTokensBuilder.tokenVerifierSchedulingTimeUnit(TimeUnit.MICROSECONDS)
     accessTokensBuilder.tokenVerifierSchedulingPeriod(
-        tokenVerifierMcbConfig.toMicros.toInt)
+      tokenVerifierMcbConfig.toMicros.toInt)
   }
 
   maybeRefreshPercentLeft.foreach { refreshPercentLeft =>
@@ -251,11 +249,11 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
   }
 
   tokenConfigurationList.foreach(
-      tokenConfiguration =>
-        accessTokensBuilder
-          .manageToken(tokenConfiguration.tokenId)
-          .addScopes(tokenConfiguration.scopes)
-          .done()
+    tokenConfiguration =>
+      accessTokensBuilder
+        .manageToken(tokenConfiguration.tokenId)
+        .addScopes(tokenConfiguration.scopes)
+        .done()
   )
 
   def accessTokens(implicit ec: ExecutionContext): Future[AccessTokens] =

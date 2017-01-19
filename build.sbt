@@ -1,19 +1,22 @@
 name := """scala-typesafe-config-tokens"""
 
-version := "0.1.2-SNAPSHOT"
+version := "0.1.2"
 
-scalaVersion := "2.11.8"
+val scala211Version = "2.11.8"
+val scala212Version = "2.12.1"
+
+scalaVersion := scala211Version
+
+crossScalaVersions := Seq(scala211Version, scala212Version)
 
 organization := "org.zalando"
 
 libraryDependencies ++= Seq(
   "org.zalando.stups"         % "tokens"       % "0.9.9",
   "org.apache.httpcomponents" % "httpclient"   % "4.5.2",
-  "com.iheart"                %% "ficus"       % "1.2.6",
-  "org.specs2"                %% "specs2-core" % "3.8.4" % Test
+  "com.iheart"                %% "ficus"       % "1.3.5",
+  "org.specs2"                %% "specs2-core" % "3.8.6" % Test
 )
-
-scalafmtConfig := Some(file(".scalafmt.conf"))
 
 publishMavenStyle := true
 
