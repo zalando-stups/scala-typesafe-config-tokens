@@ -14,7 +14,7 @@ organization := "org.zalando"
 libraryDependencies ++= Seq(
   "org.zalando.stups"         % "tokens"       % "0.9.9",
   "org.apache.httpcomponents" % "httpclient"   % "4.5.2",
-  "com.iheart"                %% "ficus"       % "1.3.5",
+  "com.iheart"                %% "ficus"       % "1.4.0",
   "org.specs2"                %% "specs2-core" % "3.8.6" % Test
 )
 
