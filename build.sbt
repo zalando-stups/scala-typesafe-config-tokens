@@ -1,6 +1,6 @@
 name := """scala-typesafe-config-tokens"""
 
-version := "0.1.2"
+version := "0.1.3"
 
 val scala211Version = "2.11.8"
 val scala212Version = "2.12.1"
