@@ -34,23 +34,25 @@ class Spec extends Specification {
   def tokenConfigurationList = {
     import scala.collection.JavaConversions._
 
-    AccessTokenFactoryInstance.accessTokensBuilder.getAccessTokenConfigurations.map {
-      accessTokenConfiguration =>
+    AccessTokenFactoryInstance.accessTokensBuilder.getAccessTokenConfigurations
+      .map { accessTokenConfiguration =>
         (accessTokenConfiguration.getTokenId.asInstanceOf[String],
          accessTokenConfiguration.getScopes
            .map(_.asInstanceOf[String])
            .to[Set])
-    }.to[Set]
+      }
+      .to[Set]
   } mustEqual Set(
-    ("firstService", Set(
-      "refole:read",
-      "refole:write",
-      "refole:all"
-    )),
-    ("secondService", Set(
-      "singleScope:all"
-    ))
-
+    ("firstService",
+     Set(
+       "refole:read",
+       "refole:write",
+       "refole:all"
+     )),
+    ("secondService",
+     Set(
+       "singleScope:all"
+     ))
   )
 
 }

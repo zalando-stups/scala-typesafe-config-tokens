@@ -10,7 +10,6 @@ import net.ceedubs.ficus.readers.ArbitraryTypeReader.arbitraryTypeValueReader
 import org.zalando.stups.tokens.mcb.MCBConfig
 
 import scala.collection.JavaConversions._
-import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.FiniteDuration
 
 case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
@@ -75,25 +74,28 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
 
   val uri = new URI(config.as[String](s"$prefix.accessTokenUri"))
 
-  val maybeClientCredentials =
+  val maybeClientCredentials: Option[JsonFileBackedClientCredentialsProvider] =
     config.as[Option[String]](s"$prefix.clientCredentials").map { fileName =>
       new JsonFileBackedClientCredentialsProvider(new File(fileName))
     }
 
-  val maybeUserCredentials = config
-    .as[Option[String]](s"$prefix.userCredentials")
-    .map(fileName =>
-      new JsonFileBackedUserCredentialsProvider(new File(fileName)))
+  val maybeUserCredentials: Option[JsonFileBackedUserCredentialsProvider] =
+    config
+      .as[Option[String]](s"$prefix.userCredentials")
+      .map(fileName =>
+        new JsonFileBackedUserCredentialsProvider(new File(fileName)))
 
-  val userDirectoryCredentialFile = config
+  val userDirectoryCredentialFile: String = config
     .as[Option[String]](s"$prefix.userDirectoryCredentialFile")
     .getOrElse("user.json")
 
-  val clientDirectoryCredentialFile = config
+  val clientDirectoryCredentialFile: String = config
     .as[Option[String]](s"$prefix.clientDirectoryCredentialFile")
     .getOrElse("client.json")
 
-  val maybeCredentialsDirectory =
+  val maybeCredentialsDirectory: Option[
+    (JsonFileBackedClientCredentialsProvider,
+     JsonFileBackedUserCredentialsProvider)] =
     config.as[Option[String]](s"$prefix.credentialsDirectory").map {
       directory =>
         val user   = new File(s"$directory/$userDirectoryCredentialFile")
@@ -104,7 +106,7 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
         )
     }
 
-  val maybeHttpProviderConfiguration =
+  val maybeHttpProviderConfiguration: Option[ClosableHttpProviderFactory] =
     config.as[Option[HttpProviderConfiguration]](s"$prefix.httpProvider").map {
       httpProviderConfiguration =>
         val closableHttpProviderFactory = new ClosableHttpProviderFactory
@@ -126,54 +128,56 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
         closableHttpProviderFactory
     }
 
-  val maybeConnectionRequestTimeout =
+  val maybeConnectionRequestTimeout: Option[FiniteDuration] =
     config.as[Option[FiniteDuration]](s"$prefix.connectionRequestTimeout")
 
-  val maybeConnectTimeout =
+  val maybeConnectTimeout: Option[FiniteDuration] =
     config.as[Option[FiniteDuration]](s"$prefix.maybeConnectTimeout")
 
-  val maybeStaleConnectionCheckEnabled =
+  val maybeStaleConnectionCheckEnabled: Option[Boolean] =
     config.as[Option[Boolean]](s"$prefix.staleConnectionCheckEnabled")
 
-  val maybeSchedulingPeriod =
+  val maybeSchedulingPeriod: Option[FiniteDuration] =
     config.as[Option[FiniteDuration]](s"$prefix.schedulingPeriod")
 
-  val maybeMetricsListener =
+  val maybeMetricsListener: Option[MetricsListener] =
     config.as[Option[String]](s"$prefix.metricsListener").map { className =>
       Class.forName(className).asInstanceOf[MetricsListener]
     }
 
-  val maybeExistingExecutorService =
+  val maybeExistingExecutorService: Option[ScheduledExecutorService] =
     config.as[Option[String]](s"$prefix.existingExecutorService").map {
       className =>
         Class.forName(className).asInstanceOf[ScheduledExecutorService]
     }
 
-  val maybeTokenInfoUri =
+  val maybeTokenInfoUri: Option[URI] =
     config.as[Option[String]](s"$prefix.tokenInfoUri").map { uri =>
       new URI(uri)
     }
 
-  val maybeTokenRefresherMcbConfig = config
+  val maybeTokenRefresherMcbConfig: Option[MCBConfig] = config
     .as[Option[MCBConfiguration]](s"$prefix.tokenRefresherMcbConfig")
     .map(_.toMCBConfig)
 
-  val maybeTokenVerifierMcbConfig = config
+  val maybeTokenVerifierMcbConfig: Option[MCBConfig] = config
     .as[Option[MCBConfiguration]](s"$prefix.tokenVerifierMcbConfig")
     .map(_.toMCBConfig)
 
-  val maybeTokenVerifierSchedulingPeriod =
+  val maybeTokenVerifierSchedulingPeriod: Option[FiniteDuration] =
     config.as[Option[FiniteDuration]](s"$prefix.tokenVerifierSchedulingPeriod")
 
-  val maybeRefreshPercentLeft =
+  val maybeRefreshPercentLeft: Option[Int] =
     config.as[Option[Int]](s"$prefix.refreshPercentLeft")
 
-  val maybeWarnPercentLeft = config.as[Option[Int]](s"$prefix.warnPercentLeft")
+  val maybeWarnPercentLeft: Option[Int] =
+    config.as[Option[Int]](s"$prefix.warnPercentLeft")
 
-  val tokenConfigurationList =
+  val tokenConfigurationList: Set[TokenConfiguration] =
     config.as[Set[TokenConfiguration]](s"$prefix.tokenConfigurationList")
 
-  val accessTokensBuilder = Tokens.createAccessTokensWithUri(uri)
+  val accessTokensBuilder: AccessTokensBuilder =
+    Tokens.createAccessTokensWithUri(uri)
 
   maybeClientCredentials.foreach { clientCredentialsDirectory =>
     accessTokensBuilder.usingClientCredentialsProvider(
@@ -252,12 +256,10 @@ case class AccessTokenFactory(config: Config = ConfigFactory.load()) {
     tokenConfiguration =>
       accessTokensBuilder
         .manageToken(tokenConfiguration.tokenId)
-        .addScopes(tokenConfiguration.scopes)
+        .addScopesTypeSafe(tokenConfiguration.scopes)
         .done()
   )
 
-  def accessTokens(implicit ec: ExecutionContext): Future[AccessTokens] =
-    Future {
-      accessTokensBuilder.start()
-    }
+  val accessTokens: AccessTokens =
+    accessTokensBuilder.start()
 }
