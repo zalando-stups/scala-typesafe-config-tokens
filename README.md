@@ -17,7 +17,7 @@ sbt compile
 Add the following to your `build.sbt` when using SBT.
 
 ```sbt
-libraryDependencies += "org.zalando" %% "scala-typesafe-config-tokens" % "0.1"
+libraryDependencies += "org.zalando" %% "scala-typesafe-config-tokens" % "0.2.0"
 ```
 
 You will also need to add the following repository
@@ -26,7 +26,7 @@ You will also need to add the following repository
 resolvers += Resolver.jcenterRepo
 ```
 
-Currently built for Scala 2.11
+Currently built for Scala 2.11 and Scala 2.12
 
 ### Configuration
 
@@ -134,13 +134,8 @@ object AccessTokensInstance extends AccessTokenFactory()
 
 // And then to get your access tokens you would do
 
-AccessTokensInstance.accessTokens.onSuccess{
-  case accessTokens => // Do something here
-}
+AccessTokensInstance.accessTokens
 ```
-
-Another thing to note is that getting the `org.zalando.stups.tokens.AccessTokens`
-returns a `Future[ApplicationTokens]` to prevent any blocking.
 
 ### Contributing
 
